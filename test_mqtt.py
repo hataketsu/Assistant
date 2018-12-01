@@ -1,16 +1,17 @@
-import paho.mqtt.client as paho
+import time
 
-broker = "broker.hivemq.com"
+import paho.mqtt.client as paho
 
 
 def on_message(client, userdata, message):
     print("received message =", str(message.payload.decode("utf-8")))
 
 
-client = paho.Client("client-001asa")
+client = paho.Client("rasp-001asa"+str(time.time()))
 client.on_message = on_message
-print("connecting to broker ", broker)
-client.connect(broker)
-print("subscribing ")
-client.subscribe("hataketsu")  # subscribe
-client.loop_forever()
+client.connect("broker.hivemq.com")
+client.subscribe("hataketsu")
+# client.loop_forever()
+while True:
+    time.sleep(1)
+    client.publish('hataketsu','fuck')

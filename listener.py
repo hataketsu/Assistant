@@ -1,7 +1,12 @@
 import os
+import time
 
+import paho.mqtt.client as paho
 import speech_recognition as sr
 from gtts import gTTS
+
+client = paho.Client("rasp-001asa" + str(time.time()))
+client.connect("broker.hivemq.com")
 
 
 def speak(audioString, lang='vi'):
@@ -12,7 +17,6 @@ def speak(audioString, lang='vi'):
 
 
 def recordAudio():
-    # Record Audio
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print("Say something!")
@@ -27,19 +31,24 @@ def recordAudio():
     except sr.RequestError as e:
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
-    return data
+    return data.strip().lower()
 
 
 def jarvis(data):
-    if len(data.strip()) == 0:
+    if len(data) == 0:
         return
-    if data.lower() == "thư ký":
+    if data == "thư ký":
         speak("Sẵn sàng")
     else:
         speak("Bạn nói: " + data)
-        if "khỏe không" in data:
-            speak("Khỏe v l")
-            speak("Phịch nhau đi em")
+        if data.startswith("bật đèn"):
+            number = data[8]
+            command = '0:'
+            client.publish('hataketsucontrol/in', command + number)
+        elif data.startswith("tắt đèn"):
+            number = data[8]
+            command = '1:'
+            client.publish('hataketsucontrol/in', command + number)
 
 
 speak("Xin chào, tôi có thể giúp gì cho bạn?")
