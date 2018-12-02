@@ -84,7 +84,7 @@ def jarvis(data):
                 speak("câu lệnh lỗi")
         elif data.startswith("chớp đèn"):
             try:
-                number = data[8]
+                number = data[9]
                 int(number)
                 speak("Bạn nói: " + data)
                 command = '-1:'
