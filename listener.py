@@ -42,30 +42,42 @@ def jarvis(data):
         speak("Sẵn sàng")
     else:
         if data.startswith("bật đèn"):
-            speak("Bạn nói: " + data)
-            number = data[8]
-            command = '0:'
-            send_cmd(command, number)
-        elif data.startswith("tắt đèn"):
-            speak("Bạn nói: " + data)
-            number = data[8]
-            command = '1:'
-            send_cmd(command, number)
-        elif data.startswith("chớp đèn"):
-            speak("Bạn nói: " + data)
-            number = data[9]
-            command = '-1:'
-            send_cmd(command, number)
-        elif data.startswith("làm mờ đèn") and data.endswith("%"):
-            number = data[11]
-            percent = data[13:15].strip()
             try:
+                number = data[8]
+                speak("Bạn nói: " + data)
+                int(number)
+                command = '0:'
+                send_cmd(command, number)
+            except Exception:
+                speak("câu lệnh lỗi")
+        elif data.startswith("tắt đèn"):
+            try:
+                number = data[8]
+                speak("Bạn nói: " + data)
+                int(number)
+                command = '1:'
+                send_cmd(command, number)
+            except Exception:
+                speak("câu lệnh lỗi")
+        elif data.startswith("chớp đèn"):
+            try:
+                number = data[8]
+                speak("Bạn nói: " + data)
+                int(number)
+                command = '-1:'
+                send_cmd(command, number)
+            except Exception:
+                speak("câu lệnh lỗi")
+        elif data.startswith("làm mờ đèn") and data.endswith("%"):
+            try:
+                number = data[11]
+                percent = data[13:15].strip()
+                speak("Bạn nói: " + data)
                 percent = int(percent)
                 command = str(percent / 100.0) + ':'
                 send_cmd(command, number)
             except Exception:
                 speak("câu lệnh lỗi")
-            speak("Bạn nói: " + data)
 
 
 def send_cmd(command, number):
