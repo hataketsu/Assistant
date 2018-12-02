@@ -101,7 +101,8 @@ def jarvis(data):
 def send_cmd(command, number):
     while flag_connected == 0:
         client.connect("broker.hivemq.com")
-        time.sleep(1)
+        time.sleep(0.1)
+        client.loop()
     client.publish('hataketsucontrolx/in', command + number)
 
 
