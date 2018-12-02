@@ -44,8 +44,8 @@ def jarvis(data):
         if data.startswith("bật đèn"):
             try:
                 number = data[8]
-                speak("Bạn nói: " + data)
                 int(number)
+                speak("Bạn nói: " + data)
                 command = '0:'
                 send_cmd(command, number)
             except Exception:
@@ -53,8 +53,8 @@ def jarvis(data):
         elif data.startswith("tắt đèn"):
             try:
                 number = data[8]
-                speak("Bạn nói: " + data)
                 int(number)
+                speak("Bạn nói: " + data)
                 command = '1:'
                 send_cmd(command, number)
             except Exception:
@@ -62,8 +62,8 @@ def jarvis(data):
         elif data.startswith("chớp đèn"):
             try:
                 number = data[8]
-                speak("Bạn nói: " + data)
                 int(number)
+                speak("Bạn nói: " + data)
                 command = '-1:'
                 send_cmd(command, number)
             except Exception:
@@ -72,9 +72,9 @@ def jarvis(data):
             try:
                 number = data[11]
                 percent = data[13:15].strip()
-                speak("Bạn nói: " + data)
                 percent = int(percent)
                 command = str(percent / 100.0) + ':'
+                speak("Bạn nói: " + data)
                 send_cmd(command, number)
             except Exception:
                 speak("câu lệnh lỗi")
