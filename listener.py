@@ -6,6 +6,23 @@ import speech_recognition as sr
 from gtts import gTTS
 
 client = paho.Client("rasp-001asa" + str(time.time()))
+
+flag_connected = 0
+
+
+def on_connect(client, userdata, flags, rc):
+    global flag_connected
+    flag_connected = 1
+
+
+def on_disconnect(client, userdata, rc):
+    global flag_connected
+    flag_connected = 0
+
+
+client.on_connect = on_connect
+client.on_disconnect = on_disconnect
+
 client.connect("broker.hivemq.com")
 
 
@@ -81,6 +98,9 @@ def jarvis(data):
 
 
 def send_cmd(command, number):
+    while flag_connected == 0:
+        client.connect("broker.hivemq.com")
+        time.sleep(1)
     client.publish('hataketsucontrolx/in', command + number)
 
 
