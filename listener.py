@@ -13,13 +13,14 @@ def speak(audioString, lang='vi'):
     print(audioString)
     tts = gTTS(text=audioString, lang=lang, )
     tts.save("audio.mp3")
-    os.system("mpv audio.mp3")
+    os.system("mpv --ao=jack audio.mp3")
 
 
 def recordAudio():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print("Say something!")
+        r.adjust_for_ambient_noise(source)
         audio = r.listen(source)
 
     data = ""
@@ -40,15 +41,35 @@ def jarvis(data):
     if data == "thư ký":
         speak("Sẵn sàng")
     else:
-        speak("Bạn nói: " + data)
         if data.startswith("bật đèn"):
+            speak("Bạn nói: " + data)
             number = data[8]
             command = '0:'
-            client.publish('hataketsucontrol/in', command + number)
+            send_cmd(command, number)
         elif data.startswith("tắt đèn"):
+            speak("Bạn nói: " + data)
             number = data[8]
             command = '1:'
-            client.publish('hataketsucontrol/in', command + number)
+            send_cmd(command, number)
+        elif data.startswith("chớp đèn"):
+            speak("Bạn nói: " + data)
+            number = data[9]
+            command = '-1:'
+            send_cmd(command, number)
+        elif data.startswith("làm mờ đèn") and data.endswith("%"):
+            number = data[11]
+            percent = data[13:15].strip()
+            try:
+                percent = int(percent)
+                command = str(percent / 100.0) + ':'
+                send_cmd(command, number)
+            except Exception:
+                speak("câu lệnh lỗi")
+            speak("Bạn nói: " + data)
+
+
+def send_cmd(command, number):
+    client.publish('hataketsucontrolx/in', command + number)
 
 
 speak("Xin chào, tôi có thể giúp gì cho bạn?")
