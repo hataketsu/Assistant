@@ -28,18 +28,23 @@ print('connected')
 
 
 def speak(audioString, lang='vi'):
+    client.loop()
     print(audioString)
     tts = gTTS(text=audioString, lang=lang, )
     tts.save("audio.mp3")
     os.system("mpv --ao=jack audio.mp3")
+    client.loop()
 
 
 def recordAudio():
+    client.loop()
+
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print("Say something!")
         r.adjust_for_ambient_noise(source)
         audio = r.listen(source)
+    client.loop()
 
     data = ""
     try:
@@ -99,6 +104,8 @@ def jarvis(data):
 
 
 def send_cmd(command, number):
+    client.loop()
+
     while flag_connected == 0:
         client.connect("broker.hivemq.com")
         time.sleep(0.1)
