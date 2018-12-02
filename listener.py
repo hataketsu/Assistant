@@ -31,8 +31,8 @@ def speak(audioString, lang='vi'):
     client.loop()
     print(audioString)
     tts = gTTS(text=audioString, lang=lang, )
-    tts.save("audio.mp3")
-    os.system("mpv --ao=jack audio.mp3")
+    tts.save("/tmp/audio.mp3")
+    os.system("mpv --ao=jack /tmp/audio.mp3")
     client.loop()
 
 
