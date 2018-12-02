@@ -22,8 +22,9 @@ def on_disconnect(client, userdata, rc):
 
 client.on_connect = on_connect
 client.on_disconnect = on_disconnect
-
+print('connecting')
 client.connect("broker.hivemq.com")
+print('connected')
 
 
 def speak(audioString, lang='vi'):
@@ -106,5 +107,6 @@ def send_cmd(command, number):
 
 speak("Xin chào, tôi có thể giúp gì cho bạn?")
 while 1:
+    client.loop()
     data = recordAudio()
     jarvis(data)
