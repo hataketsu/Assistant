@@ -17,7 +17,7 @@ pyasn1-modules==0.2.2
 PyAudio==0.2.11
 requests==2.20.1
 requests-oauthlib==1.0.0
-rsa==4.0
+rsa==4.1
 six==1.11.0
 SpeechRecognition==3.8.1
 urllib3==1.24.1
